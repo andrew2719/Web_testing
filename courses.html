@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses - Online Learning Platform</title>
+    <!-- Link to your local CSS file -->
+    <link rel="stylesheet" href="css/student/courses.css">
+    <style>
+        /* Include basic styles here for simplicity */
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #333;
+            padding: 10px;
+            color: white;
+        }
+        .navbar .logo {
+            font-size: 24px;
+        }
+        .menu a {
+            color: white;
+            margin: 0 10px;
+            text-decoration: none;
+        }
+        .menu .input-box {
+            padding: 5px;
+            margin-left: 10px;
+        }
+        .menu .search-icon {
+            cursor: pointer;
+            margin-left: 5px;
+        }
+        .user a {
+            color: white;
+            margin-left: 15px;
+            text-decoration: none;
+        }
+        .course-details-container {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin: 10px 0;
+            background-color: #f9f9f9;
+        }
+        .course-logo img {
+            width: 100px;
+            height: 100px;
+            margin-right: 20px;
+        }
+        .course-info h2 {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h1 class="logo">Online Learning</h1>
+
+        <div class="menu">
+            <a href="index.html">Home</a>
+            <a href="courses.html">Courses</a>
+            <a href="#">Reminders</a>
+            <a href="#">My Courses</a>
+            <input class="input-box" type="text" id="searchInput" style="color: black; margin-top:7px; border:2px solid black;" placeholder="Search courses...">
+            <span class="search-icon" onclick="searchCourse()">🔍</span>
+        </div>
+
+        <div class="user">
+            <a href="profile.html" class="profile">👤 Profile</a>
+            <a href="logout.html" class="logout">Logout</a>
+        </div>
+    </div>
+    
+    <div id="course-display-area"></div>
+
+    <script>
+        // Hardcoded course data for the static version
+        const courses = [
+            {
+                course_name: "Introduction to Python",
+                course_code: "PY101",
+                course_image: "images/python_logo.png"
+            },
+            {
+                course_name: "Web Development Basics",
+                course_code: "WD102",
+                course_image: "images/web_dev_logo.png"
+            },
+            {
+                course_name: "Data Science Fundamentals",
+                course_code: "DS103",
+                course_image: "images/data_science_logo.png"
+            }
+        ];
+
+        function displayAllCourses() {
+            let coursesContent = '';
+            courses.forEach(course => {
+                coursesContent += `
+                    <a href="course_details.html?course_code=${course.course_code}" class="course-link">
+                        <div class="course-details-container">
+                            <div class="course-logo">
+                                <img src="${course.course_image}" alt="Course Logo">
+                            </div>
+                            <div class="course-info">
+                                <h2>${course.course_name}</h2>
+                                <p>Course Code: ${course.course_code}</p>
+                            </div>
+                        </div>
+                    </a>
+                `;
+            });
+            document.querySelector('#course-display-area').innerHTML = coursesContent;
+        }
+
+        function searchCourse() {
+            let courseName = document.getElementById('searchInput').value.toLowerCase();
+            let courseContent = '';
+            let courseFound = false;
+
+            courses.forEach(course => {
+                if (course.course_name.toLowerCase().includes(courseName)) {
+                    courseContent += `
+                        <a href="course_details.html?course_code=${course.course_code}" class="course-link">
+                            <div class="course-details-container">
+                                <div class="course-logo">
+                                    <img src="${course.course_image}" alt="Course Logo">
+                                </div>
+                                <div class="course-info">
+                                    <h2>${course.course_name}</h2>
+                                    <p>Course Code: ${course.course_code}</p>
+                                </div>
+                            </div>
+                        </a>
+                    `;
+                    courseFound = true;
+                }
+            });
+
+            if (!courseFound) {
+                courseContent = '<p>No courses found matching your search.</p>';
+            }
+
+            document.querySelector('#course-display-area').innerHTML = courseContent;
+        }
+
+        // Display all courses when the page loads
+        displayAllCourses();
+    </script>
+
+</body>
+</html>
